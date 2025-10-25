@@ -212,16 +212,19 @@ function shareGreeting() {
   const sender = document.getElementById('senderInput').value.trim() || "AJAY GUPTA";
   const message = `${sender} ने आपके लिए कुछ भेजा है!\nदेखने के लिए सूरज पर क्लिक करें।`;
 
+  const currentUrl = window.location.href; // ✅ Current deployed URL
+
   if (navigator.share) {
     navigator.share({
       title: "Chhath Puja Greeting",
       text: message,
-      url: "https://happychhathoct2025.vercel.app/"   // ✅ तुम्हारी site का link
+      url: currentUrl   // अब fixed link नहीं, हर deployment का URL होगा
     }).catch(console.error);
   } else {
-    alert("Sharing not supported. Copy manually:\n\n" + message + "\n\nLink: https://happychhathoct2025.vercel.app/");
+    alert("Sharing not supported. Copy manually:\n\n" + message + "\n\nLink: " + currentUrl);
   }
 }
+
 
 
 // Responsive floating images
@@ -257,4 +260,5 @@ sun.addEventListener('click',()=>{
 
 </body>
 </html>
+
 
