@@ -208,13 +208,21 @@ document.getElementById('senderInput').addEventListener('input',()=>{
 });
 
 // Share
-function shareGreeting(){
+function shareGreeting() {
   const sender = document.getElementById('senderInput').value.trim() || "AJAY GUPTA";
   const message = `${sender} ने आपके लिए कुछ भेजा है!\nदेखने के लिए सूरज पर क्लिक करें।`;
-  if(navigator.share){
-    navigator.share({title:"Chhath Puja Greeting",text:message}).catch(console.error);
-  } else alert("Sharing not supported. Copy manually:\n\n"+message);
+
+  if (navigator.share) {
+    navigator.share({
+      title: "Chhath Puja Greeting",
+      text: message,
+      url: "https://happychhathoct2025.vercel.app/"   // ✅ तुम्हारी site का link
+    }).catch(console.error);
+  } else {
+    alert("Sharing not supported. Copy manually:\n\n" + message + "\n\nLink: https://happychhathoct2025.vercel.app/");
+  }
 }
+
 
 // Responsive floating images
 function createFloatingImages(){
@@ -249,3 +257,4 @@ sun.addEventListener('click',()=>{
 
 </body>
 </html>
+
