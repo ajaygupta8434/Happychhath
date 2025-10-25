@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌅 Happy Chhath Puja 🌅</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(to top, #ff9966, #ffcc66, #ffeecc);
+  text-align:center;
+  color:#fff;
+  position: relative;
+}
+
+/* Sun */
+.sun {
+  position:absolute;
+  top:10%;
+  width:100px;
+  height:100px;
+  background: radial-gradient(circle, #FFD700, #FFA500);
+  border-radius:50%;
+  box-shadow: 0 0 60px 20px #FFD700;
+  cursor:pointer;
+  z-index: 10;
+  animation: riseSun 6s ease forwards;
+}
+@keyframes riseSun {
+  from { top: 50%; transform: translateY(0); }
+  to { top: 10%; transform: translateY(-10px); }
+}
+
+/* Twinkling lights */
+.light {
+  position:absolute;
+  width:10px;
+  height:10px;
+  background: rgba(255,255,255,0.8);
+  border-radius:50%;
+  animation: twinkle 3s infinite ease-in-out;
+}
+@keyframes twinkle {
+  0%,100% { opacity:0.3; transform:scale(0.8); }
+  50% { opacity:1; transform:scale(1.2); }
+}
+
+/* Floating Images Container */
+#floatingImagesContainer {
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:auto;
+  display:flex;
+  justify-content: space-evenly;
+  z-index:5;
+}
+.floating-image {
+  width: 100%;
+  height: 100%;
+  animation: floatXY 4s ease-in-out infinite alternate;
+}
+.floating-image img {
+  width:100%;
+  height:100%;
+}
+@keyframes floatXY {
+  0%   { transform: translate(0,0); }
+  50%  { transform: translate(0,-15px); }
+  100% { transform: translate(0,0); }
+}
+
+/* H1 */
+h1 {
+  font-size: 2.5rem;
+  color: #FF6600;
+  text-shadow: 0 0 10px #FF9900,0 0 20px #FFCC33,0 0 30px #FF6600,0 0 40px #FF3300;
+  margin-bottom: 20px;
+  z-index:5;
+}
+
+/* Input & Share */
+.input-container {
+  margin-top:20px;
+  z-index:5;
+}
+input {
+  padding:10px 20px;
+  border-radius:25px;
+  border:none;
+  outline:none;
+  font-size:1rem;
+  text-align:center;
+  width:250px;
+  margin-bottom:10px;
+}
+.message {
+  font-size:1.5rem;
+  font-weight:600;
+  color:#ffcc33;
+  text-shadow:0 0 10px #ff9900;
+}
+.share-btn {
+  padding:10px 25px;
+  background: linear-gradient(90deg,#ff6600,#ffcc00);
+  color:#fff;
+  border:none;
+  border-radius:25px;
+  cursor:pointer;
+  font-size:1rem;
+  box-shadow:0 0 15px #ff9900;
+  transition:0.2s;
+}
+.share-btn:hover {
+  transform:scale(1.1);
+  box-shadow:0 0 25px #ffcc00;
+}
+
+/* Wishing Image */
+#wishingImageContainer {
+  position: absolute;
+  bottom: 150px;
+  left:50%;
+  transform: translateX(-50%) scale(0);
+  opacity:0;
+  z-index:10;
+  transition: transform 1s ease, opacity 1s ease;
+}
+#wishingImageContainer.show {
+  transform: translateX(-50%) scale(1);
+  opacity:1;
+}
+#wishingImage {
+  width: 600px;
+  max-width:90%;
+  height:auto;
+  border-radius:15px;
+  box-shadow:0 0 30px gold;
+}
+
+/* Responsive */
+@media(max-width:900px){
+  h1{font-size:2rem;}
+  input{width:200px; font-size:0.9rem;}
+  .message{font-size:1.2rem;}
+  .floating-image{width:100px; height:150px;}
+}
+@media(max-width:600px){
+  h1{font-size:1.5rem;}
+  input{width:160px; font-size:0.8rem;}
+  .message{font-size:1rem;}
+  #wishingImageContainer{bottom:100px;}
+  .floating-image{width:80px;height:120px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Twinkling lights -->
+<script>
+for(let i=0;i<60;i++){
+  const light=document.createElement('div');
+  light.classList.add('light');
+  light.style.top=Math.random()*window.innerHeight+'px';
+  light.style.left=Math.random()*window.innerWidth+'px';
+  light.style.animationDelay=Math.random()*3+'s';
+  document.body.appendChild(light);
+}
+</script>
+
+<!-- Sun -->
+<div class="sun" id="sun"></div>
+
+<!-- Floating Images -->
+<div id="floatingImagesContainer"></div>
+
+<!-- H1 -->
+<h1 id="chhathHeader">AJAY GUPTA ने आपके लिए कुछ भेजा है!<br>देखने के लिए सूरज पर क्लिक करें।</h1>
+
+<!-- Input & Share -->
+<div class="input-container">
+  <input type="text" id="senderInput" placeholder="Apna naam daalein">
+  <div class="message" id="chhathMessage"></div>
+  <button class="share-btn" onclick="shareGreeting()">🎉 Share Greeting 🎉</button>
+</div>
+
+<!-- Wishing Image -->
+<div id="wishingImageContainer">
+  <img src="happychhath.jpg" id="wishingImage" alt="Chhath Greeting">
+</div>
+
+<!-- Audio -->
+<audio id="chhathSong" src="song1.mp3"></audio>
+
+<script>
+// H1 Update
+document.getElementById('senderInput').addEventListener('input',()=>{
+  const val=document.getElementById('senderInput').value.trim()||"AJAY GUPTA";
+  document.getElementById('chhathHeader').innerHTML=`${val} ने आपके लिए कुछ भेजा है!<br>देखने के लिए सूरज पर क्लिक करें।`;
+});
+
+// Share
+function shareGreeting(){
+  const sender = document.getElementById('senderInput').value.trim() || "AJAY GUPTA";
+  const message = `${sender} ने आपके लिए कुछ भेजा है!\nदेखने के लिए सूरज पर क्लिक करें।`;
+  if(navigator.share){
+    navigator.share({title:"Chhath Puja Greeting",text:message}).catch(console.error);
+  } else alert("Sharing not supported. Copy manually:\n\n"+message);
+}
+
+// Responsive floating images
+function createFloatingImages(){
+  const container=document.getElementById('floatingImagesContainer');
+  container.innerHTML=''; // reset
+  const width=window.innerWidth;
+  let numImages=4;
+  if(width<=600) numImages=2;
+  else if(width<=900) numImages=3;
+  for(let i=0;i<numImages;i++){
+    const div=document.createElement('div');
+    div.classList.add('floating-image');
+    const img=document.createElement('img');
+    img.src='chhath.png';
+    div.appendChild(img);
+    container.appendChild(div);
+  }
+}
+createFloatingImages();
+window.addEventListener('resize',createFloatingImages);
+
+// Sun click
+const sun=document.getElementById('sun');
+const wishingContainer=document.getElementById('wishingImageContainer');
+const song=document.getElementById('chhathSong');
+sun.addEventListener('click',()=>{
+  wishingContainer.classList.add('show');
+  song.play();
+  setTimeout(()=>wishingContainer.classList.remove('show'),8000);
+});
+</script>
+
+</body>
+</html>
